@@ -1,3 +1,7 @@
 export const environment = {
-  production: true
+  DefaultLanguage: "en",
+  production: true,
+  development: false,
+  environmentName: "PROD",
+  baseURL: ''
 };

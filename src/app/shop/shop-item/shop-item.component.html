@@ -1,0 +1,22 @@
+<a routerLink="/product/{{productItem.id}}">
+    <div class="product">
+        <div class="product-wrap">
+            <img class="img-fluid w-100 mb-3 img-first image" [src]="productItem.imageUrl" alt="product-img" />
+
+
+        </div>
+        <span *ngIf="productItem.discount && productItem.discount > 0" class="onsale">{{productItem.discount}}%
+            korting</span>
+        <!-- <div class="product-hover-overlay">
+        <i class="tf-ion-android-cart"></i>
+    </div> -->
+        <div class="product-info">
+            <h2 class="product-title h5 mb-0">
+                <a>{{productItem.product_name}}</a>
+            </h2>
+            <span class="price">
+                € {{productItem.price}}
+            </span>
+        </div>
+    </div>
+</a>

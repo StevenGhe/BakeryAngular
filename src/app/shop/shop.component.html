@@ -1,0 +1,244 @@
+<section class="page-header">
+    <div class="overly"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="content text-center">
+                    <h1 class="mb-3 whiteTitle">Webwinkel</h1>
+                    <p class="whiteTitle">Bestel hier je ovenverse producten!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="products-shop section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <form class="mb-5">
+                    <!-- size -->
+                    <section class="widget widget-sizes mb-5">
+                        <h3 class="widget-title h4 mb-4" *ngIf="!loading">Categorieën</h3>
+                    </section>
+
+                    <ul class="nav flex-column" *ngIf="!loading">
+                        <li class="nav-item p-1" *ngFor="let cat of categoryList">
+                            <button class="page-link category" type="submit" (click)="filterProduct(cat)"
+                                [ngClass]="{'active': cat === currentCategory}" name="{{cat}}">{{cat}}</button>
+                        </li>
+                    </ul>
+
+                </form>
+                <!-- popular products -->
+                <!-- <section class="widget widget-popular mb-5">
+                    <h3 class="widget-title mb-4 h4" style="color: #0C090A;">Populaire Producten</h3>
+                    <a class="popular-products-item media" routerLink="/product">
+                        <img src="assets/images/p-1.jpg" alt="" class="img-fluid mr-4">
+                        <div class="media-body">
+                            <h6>Contrast <br>Backpack</h6>
+                            <span class="price">$45</span>
+                        </div>
+                    </a>
+                    <a class="popular-products-item media" routerLink="/product">
+                        <img src="assets/images/p-2.jpg" alt="" class="img-fluid mr-4">
+                        <div class="media-body">
+                            <h6>Hoodie with <br>Logo</h6>
+                            <span class="price">$45</span>
+                        </div>
+                    </a>
+                    <a class="popular-products-item media" routerLink="/product">
+                        <img src="assets/images/p-3.jpg" alt="" class="img-fluid mr-4">
+                        <div class="media-body">
+                            <h6>Traveller<br>Backpack</h6>
+                            <span class="price">$45</span>
+                        </div>
+                    </a>
+                </section> -->
+            </div>
+            <div class="col-md-9">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 mb-4 mb-lg-0">
+                        <div class="section-title">
+                            <h2 class="d-block text-left-sm" style="color: #0C090A;">Bakkerij webshop</h2>
+                            <div *ngIf="!loading" class="heading d-flex justify-content-between mb-5">
+                                <p class="result-count mb-0">
+                                    Resultaten {{((currentPage-1)*productsPerPage)+1}}-{{((currentPage)*productsPerPage)
+                                    < collectionSize ?((currentPage)*productsPerPage):collectionSize}} van
+                                        {{collectionSize}} </p>
+
+                                        <form class="ordering " method="get">
+                                            <select name="orderby" class="orderby form-control" aria-label="Shop order"
+                                                #orderbySelect (change)="orderProducts(orderbySelect.value)">
+                                                <option *ngFor="let order of orderMap | keyvalue" value="{{order.key}}">
+                                                    {{order.value}}</option>
+                                            </select>
+                                        </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5"
+                        *ngFor="let product of filteredProductList | slice : (currentPage - 1) * productsPerPage : currentPage * productsPerPage">
+                        <shop-item [productItem]="product"></shop-item>
+                    </div>
+                    <div class="spinner">
+                        <mat-spinner *ngIf="loading == true"></mat-spinner>
+                    </div>
+                </div>
+                <nav *ngIf="!loading">
+                    <ul [class]="small ? 'pagination pagination-sm' : 'pagination'">
+                        <!-- first button -->
+                        <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'" *ngIf="firstLastButtons">
+                            <button class="page-link" (click)="selectPageNumber(1)">««</button>
+                        </li>
+                        <!-- previous button -->
+                        <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'"
+                            *ngIf="nextPreviousButtons">
+                            <button class="page-link" (click)="previous()">«</button>
+                        </li>
+                        <!-- page numbers -->
+                        <ng-container *ngFor="let p of totalPages; index as i">
+                            <li *ngIf="i + 1 >= (currentPage - maxSize) && i + 1 <= (currentPage + maxSize)"
+                                [class]="currentPage === (i  + 1) ? 'page-item active' : 'page-item'">
+                                <button class="page-link" (click)="selectPageNumber(i + 1)">{{i + 1}}</button>
+                            </li>
+                        </ng-container>
+                        <!-- next button -->
+                        <li [class]="currentPage === totalPages.length ? 'page-item disabled' : 'page-item'"
+                            *ngIf="nextPreviousButtons">
+                            <button class="page-link" (click)="next()">»</button>
+                        </li>
+                        <!-- last button -->
+                        <li [class]="currentPage === totalPages.length ? 'page-item disabled' : 'page-item'"
+                            *ngIf="firstLastButtons">
+                            <button class="page-link" (click)="selectPageNumber(totalPages.length)">»»</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
+                        <div class="product">
+                            <div class="product-wrap">
+                                <a routerLink="/product">
+                                    <img class="img-fluid w-100 mb-3 img-first" src="assets/images/Brood.png"
+                                        style="min-height: 255px" alt="product-img" />
+                                </a>
+                            </div>
+                            <span class="onsale">Actie! 20% korting</span>
+                            <div class="product-hover-overlay">
+                                <a href="#"><i class="tf-ion-android-cart"></i></a>
+                                <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h2 class="product-title h5 mb-0"><a routerLink="/product">Brood</a></h2>
+                                <span class="price">
+                                    € 3,10
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
+                        <div class="product">
+                            <div class="product-wrap">
+                                <a routerLink="/product"><img class="img-fluid w-100 h-100 mb-3 img-first"
+                                        src="assets/images/taart.webp" alt="product-img" />
+                                </a>
+                            </div>
+                            <div class="product-hover-overlay">
+                                <a href="#"><i class="tf-ion-android-cart"></i></a>
+                                <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            </div>
+
+                            <div class="product-info">
+                                <h2 class="product-title h5 mb-0"><a routerLink="/product">Toert</a></h2>
+                                <span class="price">
+                                    € 3,10
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
+                        <div class="product">
+                            <div class="product-wrap">
+                                <a routerLink="/product"><img class="img-fluid w-100 mh-200 mb-3 img-first"
+                                        style="min-height: 255px" src="assets/images/taart2.webp" alt="product-img" />
+                                </a>
+                            </div>
+                            <span class="onsale">Valentijs actie!</span>
+                            <div class="product-hover-overlay">
+                                <a href="#"><i class="tf-ion-android-cart"></i></a>
+                                <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h2 class="product-title h5 mb-0"><a routerLink="/product">Andere toert</a></h2>
+                                <span class="price">
+                                    € 3,10
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
+                        <div class="product">
+                            <div class="product-wrap">
+                                <a routerLink="/product"><img class="img-fluid w-100 mb-3 img-first"
+                                        style="min-height: 255px" src="assets/images/Koffiekoek-chocolade-pudding.jpg"
+                                        alt="product-img" />
+                                </a>
+                            </div>
+                            <div class="product-hover-overlay">
+                                <a href="#"><i class="tf-ion-android-cart"></i></a>
+                                <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h2 class="product-title h5 mb-0"><a routerLink="/product">Kaffekoeke</a></h2>
+                                <span class="price">
+                                    € 3,10
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
+                        <div class="product">
+                            <div class="product-wrap">
+                                <a routerLink="/product"><img class="img-fluid w-100 mb-3 img-first"
+                                        style="min-height: 255px" src="assets/images/mariman-prod-15.jpg"
+                                        alt="product-img" />
+                                </a>
+                            </div>
+                            <div class="product-hover-overlay">
+                                <a href="#"><i class="tf-ion-android-cart"></i></a>
+                                <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h2 class="product-title h5 mb-0"><a routerLink="/product">Andere kaffekoek</a></h2>
+                                <span class="price">
+                                    € 3,10
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5">
+                        <div class="product">
+                            <div class="product-wrap">
+                                <a routerLink="/product"><img class="img-fluid w-100 mb-3 img-first"
+                                        style="min-height: 255px" src="assets/images/chocolade.jpg" alt="product-img" />
+                                </a>
+                            </div>
+                            <div class="product-hover-overlay">
+                                <a href="#"><i class="tf-ion-android-cart"></i></a>
+                                <a href="#"><i class="tf-ion-ios-heart"></i></a>
+                            </div>
+                            <div class="product-info">
+                                <h2 class="product-title h5 mb-0"><a routerLink="/product">Chocolade</a></h2>
+                                <span class="price">
+                                    € 3,10
+                                </span>
+                            </div>
+                        </div>
+                    </div> -->

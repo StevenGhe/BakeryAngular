@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white w-100 navigation" id="navbar">
+  <div class="container">
+    <a class="navbar-brand font-weight-bold" routerLink="/">De Warme Bakkers Rijmenam</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+      aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse " id="main-navbar">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products">Over ons</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products">Winkel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cart">Winkelmandje</a>
+        </li>
+      </ul>
+    </div>
+    <!-- Navbar-collapse -->
+
+    <ul class="top-menu list-inline mb-0 d-none d-lg-block" id="top-menu">
+      <li class="dropdown cart-nav dropdown-slide list-inline-item">
+        <a href="#" class="dropdown-toggle cart-icon" data-toggle="dropdown" data-hover="dropdown">
+          <i class="tf-ion-android-cart"> </i>
+        </a>
+        <div class="dropdown-menu cart-dropdown">
+
+          <!-- <div class="media" *ngIf="cartItems.length == 0">
+            Je hebt geen producten in je winkelmandje.
+          </div> -->
+          <div class="media" *ngFor="let cartItem of cartList">
+            <a routerLink="/product/{{cartItem.product.id}}">
+              <img class="media-object img- mr-3" [src]="cartItem.product.imageUrl" alt="image" />
+            </a>
+            <div class="media-body">
+              <h6>{{cartItem.product.product_name}}</h6>
+              <div class="cart-price">
+                <span>{{cartItem.quantity}} x </span>
+                <span>€ {{cartItem.product.price}}</span>
+              </div>
+            </div>
+            <a (click)="removeFromCart(cartItem.product.id)"><i class="tf-ion-close"></i></a>
+          </div>
+
+          <div class="cart-summary">
+            <span class="h6">Totaal</span>
+            <span class="total-price price h6">{{totalPrice | currency : 'EUR': 'symbol' :'1.0'}}</span>
+
+            <div class="text-center cart-buttons mt-3">
+              <a routerLink="/cart" class="btn btn-small btn-transparent btn-block">Bekijk Winkelmandje</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</nav>

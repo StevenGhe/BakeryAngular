@@ -1,0 +1,115 @@
+<section class="page-header">
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="content text-center">
+          <h1 class="mb-3" style="color: white;">Winkelmandje</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cart shopping page-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="product-list">
+          <form class="cart-form">
+            <table class="table shop_table shop_table_responsive cart" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="product-thumbnail"> </th>
+                  <th class="product-name">Product</th>
+                  <th class="product-price">Prijs</th>
+                  <th class="product-quantity">Aantal</th>
+                  <th class="product-subtotal">Totaal</th>
+                  <th class="product-remove"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="cart_item" *ngFor="let cartItem of cartList">
+                  <td class="product-thumbnail" data-title="Thumbnail">
+                    <a routerLink="/product/{{cartItem.product.id}}"><img [src]="cartItem.product.imageUrl"
+                        alt="product img"></a>
+                  </td>
+                  <td class="product-name" data-title="Product">
+                    <a routerLink="/product/{{cartItem.product.id}}">{{cartItem.product.product_name}}</a>
+                  </td>
+                  <td class="product-price" data-title="Price">
+                    <span class="amount">
+                      <p>€
+                        <span class="price h6">
+                          {{cartItem.product.price}}
+                        </span>
+                      </p>
+                    </span>
+                  </td>
+                  <td class="product-quantity" data-title="Quantity"><br>
+                    <div class="quantity"><br>
+                      <label class="sr-only">Quantity</label>
+                    </div>
+                    <p>
+                      <input type="number" class="input-text qty text" step="1" min="0" max="9"
+                        [(ngModel)]="cartItem.quantity" name="quantity" size="4"
+                        (ngModelChange)="quantityChanged($event, cartItem.product.id)"><br>
+                      <br>
+                      <br>
+                    </p>
+                  </td>
+                  <td class="product-subtotal" data-title="Total">
+                    <span class="amount"><span class="currencySymbol">
+                        <p>€
+                          <span class="price h6">
+                            {{cartItem.product.price * cartItem.quantity | currency : '': '' :'1.0'}}
+                          </span>
+                        </p>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="product-remove" data-title="Remove">
+                    <a (click)="removeFromCart(cartItem.product.id)" class="remove">
+                      <i class="tf-ion-android-delete"> </i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div><br>
+    </div>
+    <div class="row justify-content-end"><br>
+      <div class="col-lg-4"><br>
+        <div class="cart-info card p-4 mt-4"><br>
+          <h4 class="mb-4">Winkelmandje</h4>
+          <p>
+          <ul class="list-unstyled mb-4"><br>
+            <li class="d-flex justify-content-between pb-2 mb-3"><br>
+              <h5>Subtotaal</h5><br>
+              <span class="price">
+                {{totalPrice | currency : 'EUR': 'symbol' :'1.0'}}
+              </span><br>
+            </li>
+            <p>
+              <li class="d-flex justify-content-between pb-2 mb-3"><br>
+                <h5>Service</h5><br>
+                <span>Gratis</span><br>
+              </li>
+            </p>
+            <p>
+              <li class="d-flex justify-content-between pb-2 mb-3"><br>
+                <h5>Totaal</h5><br>
+                <span class="price">
+                  {{totalPrice | currency : 'EUR': 'symbol' :'1.0'}}
+                </span><br>
+              </li><br>
+          </ul><br>
+          <button routerLink="/checkout" [disabled]="totalPrice == 0" class="btn btn-main btn-small">
+            Bestelling bevestigen
+          </button>
+        </div><br>
+      </div><br>
+    </div><br>
+  </div><br>
+</section>

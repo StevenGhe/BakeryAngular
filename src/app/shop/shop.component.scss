@@ -1,0 +1,19 @@
+.spinner {
+    margin: 3em;
+}
+
+.category {
+    min-width: 150px;
+    color: #212529;
+}
+
+.category:hover {
+    background: #fb5c42;
+    color: #fff;
+}
+
+.category.active {
+    background: #fb5c42;
+    color: #fff;
+    border-color: #fb5c42;
+}
